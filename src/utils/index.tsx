@@ -1,10 +1,20 @@
 import Web3 from "web3";
 import IconService from "icon-sdk-js";
+import { AbiItem } from "web3-utils";
 
 import { NETWORKS } from "routes/constants";
 import iconSdk from "config/icon";
+import { ethWeb3 } from 'config/web3';
+
+const abi: Array<AbiItem> = [];
 
 const { IconBuilder, IconAmount, IconConverter } = IconService;
+
+export const timeout = (instance: number) => {
+  const seconds = instance === 1 ? 2000 : 1000;
+  return new Promise(resolve => setTimeout(resolve, seconds));
+}
+
 
 export async function getBalance(publicAddress: string, network: string, web3?: Web3) {
   let balance = '0';
@@ -45,5 +55,36 @@ export async function sendNativeToken(sender: string, receiver: string, amount: 
 
     const res =  magic.icon.sendTransaction(txObj);
     return res;
+  }
+}
+
+export function readContract (contractAddr: string, method: string, params: object,
+  network: string) {
+    if(network === NETWORKS.ICON.name) {
+      const callObj = new IconBuilder.CallBuilder()
+        .to(contractAddr)
+        .method(method)
+        .params(params)
+        .build()
+      return iconSdk.call(callObj).execute();
+    
+    } else if(network === NETWORKS.ethereum.name) {
+      const contract = new ethWeb3.eth.Contract(abi, contractAddr);
+      return contract.methods[method].call();
+    }
+}
+
+export async function fetchIconTxDetails(txHash: string, instance: number = 1) {
+  try {
+    await timeout(instance);
+    const txResult = await iconSdk.getTransactionResult(txHash).execute();
+    console.log("TX RESULT = ", txResult);
+  } catch (err) {
+    if (instance === 7) {
+      console.error(err);
+    } else {
+      console.log(`Retrying getting tx details... Attempt ${instance++}`);
+      fetchIconTxDetails(txHash, instance);
+    }
   }
 }

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 
 import useAuth from "hooks/useAuth";
-import NetworkSelector from './NetworkSelector';
 import SendDiv from './SendDiv';
 import { magicIcon, magicEthereum } from "config/magic";
 import { ethWeb3 } from "config/web3";
 import { NETWORKS } from "routes/constants";
 import { INetworkState } from "interfaces/networks";
-import { getBalance, sendNativeToken } from "utils";
+import { getBalance, sendNativeToken, fetchIconTxDetails } from "utils";
 import Spinner from 'components/Spinner';
+import IconService from "icon-sdk-js";
+
+const { IconAmount } = IconService;
 
 const Dashboard = () => {
   const userHandle = useAuth();
@@ -19,24 +21,48 @@ const Dashboard = () => {
     token: NETWORKS.ICON.token,
     tracker: process.env['REACT_APP_ICON_TRACKER']!
   });
-  const [balance, setBalance] = useState<string>('-');
   const [loading, setLoading] = useState<Boolean>(false);
   const [txHash, setTxHash] = useState('');
+  const [userEthDetails, setUserEthDetails] = useState({ address: '', balance: '0' });
+  const [userIconDetails, setUserIconDetails] = useState({ address: '', balance: '0'});
+
+  useEffect(() => {
+    async function fetchUser() {
+      const { publicAddress: ethAddress } = await magicEthereum.user.getMetadata();
+      const { publicAddress: iconAddress } = await magicIcon.user.getMetadata();
+      const iconBalance = await getBalance(iconAddress!, NETWORKS.ICON.name);
+      const ethBalance = await getBalance(ethAddress!, NETWORKS.ethereum.name, ethWeb3);
+
+      setUserEthDetails({ address: ethAddress!, balance: ethBalance });
+      setUserIconDetails({ address: iconAddress!, balance: iconBalance });
+    }
+    fetchUser();
+  }, []);
   
   useEffect(() => {
-    setBalance('-');
     setLoading(true);
     async function x() {
       const loggedIn = userHandle.loggedIn ? true : false;
-      const { publicAddress } = await network.magic.user.getMetadata()
+      const { publicAddress } = await network.magic.user.getMetadata();
+      console.log(publicAddress);
       userHandle.setAuthDetails!({
         loggedIn,
         user: {
           walletAddress: publicAddress
         }
       });
-      const newBalance = await getBalance(publicAddress, network.name, network.web3);
-      setBalance(newBalance);
+      console.log(userIconDetails);
+      console.log(userEthDetails)
+      if(network.name === NETWORKS.ICON.name && userIconDetails.address) {
+        if(txHash) await fetchIconTxDetails(txHash);
+        const newIconBalance = await getBalance(userIconDetails.address, NETWORKS.ICON.name);
+        console.log(newIconBalance)
+        setUserIconDetails({ address: userIconDetails.address, balance: newIconBalance});
+      }
+      if(network.name === NETWORKS.ethereum.name && userEthDetails.address) {
+        const newEthBalance = await getBalance(userEthDetails.address, NETWORKS.ethereum.name, ethWeb3);
+        setUserEthDetails({ address: userEthDetails.address, balance: newEthBalance});
+      }
       setLoading(false);
     }
     x();
@@ -81,9 +107,19 @@ const Dashboard = () => {
   return(
     <div>
       <Spinner show={loading} overlay={true} />
-      <p className='card'><b>Wallet Address: </b>{userHandle.user.walletAddress}</p>
-      <NetworkSelector balance={balance} networkState={network} handleNetworkChange={handleNetworkChange} />
-      <SendDiv handleSendToken={handleSendToken} networkState={network} />
+      <div className='flex-row'>
+        <div className='card'>
+          <h5>Ethereum (Ropsten)</h5>
+          <p><b>Wallet Address: </b>{userEthDetails.address}</p>
+          <p><b>Balance: </b>{IconAmount.fromLoop(parseFloat(userEthDetails.balance), 'ICX')} ETH</p>
+        </div>
+        <div className='card'>
+          <h5>ICON (Yeouido)</h5>
+          <p><b>Wallet Address: </b>{userIconDetails.address}</p>
+          <p><b>Balance: </b>{IconAmount.fromLoop(parseFloat(userIconDetails.balance), 'ICX')} ICX</p>
+        </div>
+      </div>
+      <SendDiv handleSendToken={handleSendToken} networkState={network} handleNetworkChange={handleNetworkChange} />
       {txHash && <a href={`${network.tracker}/${txHash}`} rel='noreferrer noopener' target='_blank'>{txHash}</a>}
     </div>
   );
