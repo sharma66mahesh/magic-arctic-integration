@@ -109,12 +109,12 @@ const Dashboard = () => {
       <Spinner show={loading} overlay={true} />
       <div className='flex-row'>
         <div className='card'>
-          <h5>Ethereum (Ropsten)</h5>
+          <h5>Ethereum (Rinkeby)</h5>
           <p><b>Wallet Address: </b>{userEthDetails.address}</p>
           <p><b>Balance: </b>{IconAmount.fromLoop(parseFloat(userEthDetails.balance), 'ICX')} ETH</p>
         </div>
         <div className='card'>
-          <h5>ICON (Yeouido)</h5>
+          <h5>ICON (Berlin)</h5>
           <p><b>Wallet Address: </b>{userIconDetails.address}</p>
           <p><b>Balance: </b>{IconAmount.fromLoop(parseFloat(userIconDetails.balance), 'ICX')} ICX</p>
         </div>

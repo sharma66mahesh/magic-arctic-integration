@@ -9,5 +9,4 @@ export const magicIcon = new Magic(process.env['REACT_APP_MAGIC_PERISHABLE_KEY']
   ]
 });
 
-export const magicEthereum = new Magic(process.env['REACT_APP_MAGIC_PERISHABLE_KEY']!, { network: 'ropsten' });
-magicEthereum.network = 'ethereum';
+export const magicEthereum = new Magic(process.env['REACT_APP_MAGIC_PERISHABLE_KEY']!, { network: { rpcUrl: process.env['REACT_APP_ROPSTEN_INFURA_NODE']!, chainId: 3 } });
