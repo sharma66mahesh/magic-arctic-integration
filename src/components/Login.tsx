@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import useAuth from "hooks/useAuth";
-import { magicIcon } from "config/magic";
+import { magicEthereum } from "config/magic";
 import Spinner from "./Spinner";
 
 
@@ -11,11 +11,13 @@ export default function Login() {
 
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  console.log(email);
-  const handleLogin = async () => {
+  
+  const handleLogin = async (e:any) => {
+    e.preventDefault();
+
     setLoading(true);
-    await magicIcon.auth.loginWithMagicLink({ email });
-    const magicUserDetails = await magicIcon.user.getMetadata();
+    await magicEthereum.auth.loginWithMagicLink({ email }); 
+    const magicUserDetails = await magicEthereum.user.getMetadata();
     console.log(magicUserDetails);
     userHandle.setAuthDetails!({
       loggedIn: true,
@@ -36,7 +38,7 @@ export default function Login() {
           value={email}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         />
-        <button type='submit' disabled={loading} onClick={handleLogin} >Login</button>
+        <button type='submit' disabled={loading} onClick={e => handleLogin(e)} >Login</button>
         <Spinner show={loading} overlay={true} />
       </form>
     </div>

@@ -25,9 +25,9 @@ export default function SendDiv(props: ISendDiv) {
       <h4>Send {props.networkState.token}</h4>
       <div className='card'>
         <h5>Select Network</h5>
-        <select defaultValue={NETWORKS.ICON.name} onChange={(e) => props.handleNetworkChange(e.target.value)}>
-          <option value={NETWORKS.ICON.name}>ICON</option>
+        <select defaultValue={NETWORKS.ethereum.name} onChange={(e) => props.handleNetworkChange(e.target.value)}>
           <option value={NETWORKS.ethereum.name}>Ethereum</option>
+          <option value={NETWORKS.polkadot.name}>Polkadot</option>
         </select>
       </div>
       <form onSubmit={sendToken}>

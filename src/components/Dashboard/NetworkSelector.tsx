@@ -1,5 +1,5 @@
 import { INetworkState } from "interfaces/networks"
-import { NETWORKS } from "routes/constants";
+// import { NETWORKS } from "routes/constants";
 import IconService from 'icon-sdk-js';
 
 const { IconConverter } = IconService;

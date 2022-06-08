@@ -1,3 +1,5 @@
+// NO CHANGES NEEDED
+
 import { useState } from 'react';
 import { Switch, withRouter } from 'react-router-dom';
 
@@ -12,6 +14,8 @@ import { IAuthDetails } from './interfaces/users';
 function App() {
 
   console.log(process.env);
+
+  // auth state is set at the root of the app
   const [authState, setAuthState] = useState<IAuthDetails>({
     loggedIn: false,
     user: { 
@@ -21,6 +25,8 @@ function App() {
 
   const contextValue = { ...authState, setAuthDetails: setAuthState};
   console.log();
+
+  // basically there are three pages - home, login and dashboard
   return (
     <AuthContext.Provider value={contextValue}>
       <div className="center-children cover-screen center-text">

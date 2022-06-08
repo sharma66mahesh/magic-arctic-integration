@@ -5,12 +5,12 @@ export const PATHS = {
 }
 
 export const NETWORKS = {
-  ICON: {
-    name: 'icon',
-    token: 'ICX'
-  },
   ethereum: {
     name: 'ethereum',
     token: 'ETH'
   },
+  polkadot: {
+    name: 'polkadot',
+    token: 'DOT',
+  }
 }

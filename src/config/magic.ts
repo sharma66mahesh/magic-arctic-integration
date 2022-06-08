@@ -1,12 +1,23 @@
 import { Magic } from "magic-sdk";
-import { IconExtension } from "@magic-ext/icon";
+import { PolkadotExtension } from "@magic-ext/polkadot";
 
-export const magicIcon = new Magic(process.env['REACT_APP_MAGIC_PERISHABLE_KEY']!, {
-  extensions: [
-    new IconExtension({
-      rpcUrl: process.env['REACT_APP_ICON_RPC_URL']!,
-    })
-  ]
-});
+export const magicEthereum = new Magic(
+  process.env["REACT_APP_MAGIC_PERISHABLE_KEY"]!,
+  {
+    network: {
+      rpcUrl: process.env["REACT_APP_ETHEREUM_EVM_RPC_URL"]!,
+      chainId: 3, // TODO: what is chain ID here?
+    },
+  }
+);
 
-export const magicEthereum = new Magic(process.env['REACT_APP_MAGIC_PERISHABLE_KEY']!, { network: { rpcUrl: process.env['REACT_APP_ROPSTEN_INFURA_NODE']!, chainId: 3 } });
+export const magicPolkadot = new Magic(
+  process.env["REACT_APP_MAGIC_PERISHABLE_KEY"]!,
+  {
+    extensions: [
+      new PolkadotExtension({
+        rpcUrl: process.env["REACT_APP_POLKADOT_SUBSTRATE_RPC_URL"]!,
+      }),
+    ],
+  }
+);
