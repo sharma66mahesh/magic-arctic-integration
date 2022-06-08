@@ -1,7 +1,7 @@
 // NO CHANGES NEEDED
 
 import { useState } from 'react';
-import { Switch, withRouter } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import Login from 'components/Login';
 import Dashboard from 'components/Dashboard';
@@ -30,15 +30,16 @@ function App() {
   return (
     <AuthContext.Provider value={contextValue}>
       <div className="center-children cover-screen center-text">
-        <Switch>
-          <AuthRoute exact={true} path={PATHS.HOME} component={Dashboard} />
-          <AuthRoute exact={true} path={PATHS.LOGIN} component={Login} />
-          <AuthRoute exact={true} path={PATHS.DASHBOARD} component={Dashboard} />
-          <AuthRoute component={Dashboard} />
-        </Switch>
+        
+          <Routes>
+            <Route path={PATHS.HOME} element={<Dashboard/>} />
+            <Route path={PATHS.LOGIN} element={<Login />} />
+            <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+            <Route element={Dashboard} />
+          </Routes>
       </div>
     </AuthContext.Provider>
   );
 }
 
-export default withRouter(App);
+export default App;

@@ -1,7 +1,7 @@
 // NOT NECESSARY TO CHANGE
 
 import { Route } from "react-router";
-import { Redirect, RouteProps } from 'react-router-dom';
+import { Navigate, RouteProps } from 'react-router-dom';
 
 import Login from 'components/Login';
 import useAuth from "../hooks/useAuth";
@@ -12,15 +12,15 @@ export default function AuthRoute(routeProps: RouteProps) {
 
   if(userDetails.loggedIn) {
     if(routeProps.path === PATHS.LOGIN) {
-      return <Redirect to={PATHS.HOME} />
+      return <Navigate to={PATHS.HOME} />
     }
     else {
-      return <Route component={routeProps.component} {...routeProps} />
+      return <Route element={routeProps.element} {...routeProps} />
     }
   } else {
     if(routeProps.path === PATHS.LOGIN) {
-      return <Route component={Login} {...routeProps} />
+      return <Route element={<Login/>} {...routeProps} />
     } else
-      return <Redirect to={{ pathname: PATHS.LOGIN}} />
+      return <Navigate to={{ pathname: PATHS.LOGIN}} />
   }
 }
