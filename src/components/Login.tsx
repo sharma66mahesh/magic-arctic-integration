@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import useAuth from "hooks/useAuth";
 import { magicEthereum } from "config/magic";
 import Spinner from "./Spinner";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Login() {
 
   const userHandle = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,6 +28,7 @@ export default function Login() {
       }
     });
     setLoading(false);
+    navigate('/');
   }
 
   return (

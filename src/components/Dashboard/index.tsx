@@ -175,7 +175,7 @@ const Dashboard = () => {
               parseFloat(userPolkadotDetails.balance),
               "ICX"
             )}{" "}
-            POL
+            DOT
           </p>
         </div>
       </div>

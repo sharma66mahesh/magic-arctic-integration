@@ -32,10 +32,11 @@ function App() {
       <div className="center-children cover-screen center-text">
         
           <Routes>
-            <Route path={PATHS.HOME} element={<Dashboard/>} />
             <Route path={PATHS.LOGIN} element={<Login />} />
-            <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
-            <Route element={Dashboard} />
+            <Route element={<AuthRoute/>} >
+              <Route path={PATHS.HOME} element={<Dashboard/>} />
+              <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+            </Route>
           </Routes>
       </div>
     </AuthContext.Provider>

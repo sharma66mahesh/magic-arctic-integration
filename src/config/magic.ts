@@ -5,8 +5,8 @@ export const magicEthereum = new Magic(
   process.env["REACT_APP_MAGIC_PERISHABLE_KEY"]!,
   {
     network: {
-      rpcUrl: process.env["REACT_APP_ETHEREUM_EVM_RPC_URL"]!,
-      chainId: 3, // TODO: what is chain ID here?
+      rpcUrl: process.env["REACT_APP_EVM_RPC_URL"]!,
+      chainId: 552,
     },
   }
 );
@@ -16,7 +16,7 @@ export const magicPolkadot = new Magic(
   {
     extensions: [
       new PolkadotExtension({
-        rpcUrl: process.env["REACT_APP_POLKADOT_SUBSTRATE_RPC_URL"]!,
+        rpcUrl: process.env["REACT_APP_SUBSTRATE_RPC_URL"]!,
       }),
     ],
   }

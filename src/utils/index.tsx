@@ -23,11 +23,13 @@ export async function getBalance(
     console.log(balance);
   } else if (network === NETWORKS.polkadot.name) {
     const api = await ApiPromise.create({ provider: substrateWsProvider }); // create this beforehand in another place?
-    await api.isReady; // TODO: remove if deemed unnecessary
+    console.log('api is connected');
     let {
       data: { free: walletBalance },
     } = await api.query.system.account(publicAddress);
     balance = walletBalance.toString() || "0"; // TODO: remove this check if necessary
+    console.log(walletBalance);
+
   }
   return balance;
 }
