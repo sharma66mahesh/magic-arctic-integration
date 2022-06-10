@@ -6,7 +6,7 @@ export const magicEthereum = new Magic(
   {
     network: {
       rpcUrl: process.env["REACT_APP_EVM_RPC_URL"]!,
-      chainId: 552,
+      chainId: 553,
     },
   }
 );
