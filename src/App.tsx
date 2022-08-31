@@ -1,7 +1,7 @@
 // NO CHANGES NEEDED
 
 import { useState } from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Login from 'components/Login';
 import Dashboard from 'components/Dashboard';
