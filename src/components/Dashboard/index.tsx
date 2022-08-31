@@ -138,7 +138,7 @@ const Dashboard = () => {
         network.web3
       );
       console.log(res);
-      setTxHash(txHash);
+      setTxHash(typeof res === 'object' ? res.transactionHash : (res ?? ''));
     } catch (err) {
       alert(err);
       console.error(err);
