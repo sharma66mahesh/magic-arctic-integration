@@ -1,4 +1,4 @@
-import { INetworkState } from "interfaces/networks"
+import { INetworkState } from "../../interfaces/networks"
 // import { NETWORKS } from "routes/constants";
 import IconService from 'icon-sdk-js';
 

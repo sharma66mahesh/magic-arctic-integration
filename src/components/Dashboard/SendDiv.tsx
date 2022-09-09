@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { NETWORKS } from "routes/constants";
+import { NETWORKS } from "../../routes/constants";
 
-import { INetworkState } from "interfaces/networks"
+import { INetworkState } from "../../interfaces/networks"
 
 type ISendDiv = {
   networkState: INetworkState;

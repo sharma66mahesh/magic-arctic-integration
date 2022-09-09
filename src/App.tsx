@@ -1,19 +1,18 @@
 // NO CHANGES NEEDED
 
 import { useState } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Login from 'components/Login';
-import Dashboard from 'components/Dashboard';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 import AuthRoute from './routes/AuthRoute';
 import { StoreContext as AuthContext } from './hooks/useAuth';
 import './App.css';
-import { PATHS } from 'routes/constants';
+import { PATHS } from './routes/constants';
 import { IAuthDetails } from './interfaces/users';
 
 function App() {
-
-  console.log(process.env);
 
   // auth state is set at the root of the app
   const [authState, setAuthState] = useState<IAuthDetails>({

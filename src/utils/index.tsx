@@ -1,10 +1,9 @@
 import Web3 from "web3";
-// import { ApiPromise } from "@polkadot/api";
-// import "@polkadot/api-augment";
+import { ApiPromise } from "@polkadot/api";
 
-import { NETWORKS } from "routes/constants";
-// import { substrateWsProvider } from "config/polkadot";
-import { magicPolkadot } from "config/magic";
+import { NETWORKS } from "../routes/constants";
+import { substrateWsProvider } from "../config/polkadot";
+import { magicPolkadot } from "../config/magic";
 
 
 export const timeout = (instance: number) => {
@@ -22,14 +21,13 @@ export async function getBalance(
     balance = (await web3?.eth.getBalance(publicAddress!)) ?? "0";
     console.log(balance);
   } else if (network === NETWORKS.polkadot.name) {
-    // const api = await ApiPromise.create({ provider: substrateWsProvider }); // create this beforehand in another place?
-    // console.log('api is connected');
-    // let {
-    //   data: { free: walletBalance },
-    // } = await api.query.system.account(publicAddress);
-    // balance = walletBalance.toString() || "0"; // TODO: remove this check if necessary
-    // console.log(walletBalance);
-    balance = "0";
+    const api = await ApiPromise.create({ provider: substrateWsProvider }); // create this beforehand in another place?
+    console.log('api is connected');
+    let {
+      // @ts-ignore
+      data: { free: walletBalance },
+    } = await api.query.system.account(publicAddress);
+    balance = walletBalance.toString() || "0"; // TODO: remove this check if necessary
 
   }
   return balance;
@@ -43,12 +41,20 @@ export async function sendNativeToken(
   web3?: Web3
 ) {
   if (network === NETWORKS.ethereum.name) {
+    console.log({
+      from: sender,
+      to: receiver,
+      // @ts-ignore
+      value: web3.utils.toWei(amount.toString()),
+    });
+    console.log(web3?.utils.toWei(amount.toString()))
     console.log("eth detected");
     console.log(web3!.eth);
     const res = web3?.eth.sendTransaction({
       from: sender,
       to: receiver,
-      value: web3.utils.toBN(web3.utils.toWei(amount.toString())),
+      // @ts-ignore
+      value: web3.utils.toWei(amount.toString()),
     });
     return res;
   } else if (network === NETWORKS.polkadot.name) {

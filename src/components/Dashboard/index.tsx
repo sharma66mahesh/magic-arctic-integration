@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-
-import useAuth from "hooks/useAuth";
+import React from 'react';
+import useAuth from "../../hooks/useAuth";
 import SendDiv from "./SendDiv";
-import { magicEthereum, magicPolkadot } from "config/magic";
-import { ethWeb3 } from "config/web3";
-import { NETWORKS } from "routes/constants";
-import { INetworkState } from "interfaces/networks";
-import { getBalance, sendNativeToken } from "utils";
-import Spinner from "components/Spinner";
+import { magicEthereum, magicPolkadot } from "../../config/magic";
+import { ethWeb3 } from "../../config/web3";
+import { NETWORKS } from "../../routes/constants";
+import { INetworkState } from "../../interfaces/networks";
+import { getBalance, sendNativeToken } from "../../utils";
+import Spinner from "../../components/Spinner";
 import IconService from "icon-sdk-js";
 
 const { IconAmount } = IconService;
@@ -48,7 +48,6 @@ const Dashboard = () => {
         polkadotAddress!,
         NETWORKS.polkadot.name
       );
-
       setUserEthDetails({ address: ethAddress!, balance: ethBalance });
       setUserPolkadotDetails({
         address: polkadotAddress!,
@@ -159,7 +158,7 @@ const Dashboard = () => {
           </p>
           <p>
             <b>Balance: </b>
-            {IconAmount.fromLoop(parseFloat(userEthDetails.balance), "ICX")} ETH
+            <>{IconAmount.fromLoop(parseFloat(userEthDetails.balance), "ICX")} ETH</>
           </p>
           {/* TODO: using icon amount here? */}
         </div>
@@ -171,11 +170,11 @@ const Dashboard = () => {
           </p>
           <p>
             <b>Balance: </b>
-            {IconAmount.fromLoop(
+            <>{IconAmount.fromLoop(
               parseFloat(userPolkadotDetails.balance),
               "ICX"
             )}{" "}
-            DOT
+            DOT</>
           </p>
         </div>
       </div>

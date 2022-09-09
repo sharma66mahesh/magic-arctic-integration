@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import useAuth from "hooks/useAuth";
-import { magicEthereum } from "config/magic";
+import useAuth from "../hooks/useAuth";
+import { magicEthereum } from "../config/magic";
 import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 
